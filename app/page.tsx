@@ -103,7 +103,7 @@ export default function HomePage() {
         </h1>
         
         <p className="text-gray-600 text-base sm:text-lg max-w-md mx-auto">
-          Discover your cosmic connection with our AI-powered compatibility calculator
+          Discover your connection with our AI-powered compatibility calculator
         </p>
         
         <motion.div
@@ -164,7 +164,7 @@ export default function HomePage() {
         transition={{ delay: 0.6 }}
         className="mt-auto pt-8 pb-4 text-center text-xs text-gray-400"
       >
-        <p>Made with 💕 by Zomi Love Guru</p>
+        <p>Made with 💕 by You</p>
         <p className="mt-1">This is for entertainment purposes only</p>
       </motion.footer>
     </main>

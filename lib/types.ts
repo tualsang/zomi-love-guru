@@ -113,6 +113,7 @@ export interface SheetRowData {
   crushDOB: string;
   crushLocation: string;
   compatibilityPercentage: number;
+  context: string;
   aiSummary: string;
   screenResolution: string;
   browserDeviceInfo: string;
