@@ -37,18 +37,19 @@ You are not allowed to ask follow-up questions.`;
  * User data is clearly marked as data, not instructions
  */
 function buildUserPrompt(data: SanitizedFormData): string {
-  return `Generate a fictional love compatibility result using the following structured data.
+  return `Generate a Gen-Z love compatibility result using the following structured data.
+  Feel free to roast if percentage is low.
 Return ONLY a valid JSON object in this format:
 {
   "percentage": number (integer between 0 and 100),
   "summary": string
 }
 Rules for the summary:
-- Must be 3–4 sentences total
+- Must be 2–4 sentences total
 - Must start EXACTLY with:
   "You and ${data.crush.name} are a {{percentage}}% match!"
-- Tone must be witty, charming, and slightly mystical
-- If "context" is present and non-empty, you MUST reference it positively
+- Tone must be witty, charming, slightly mystical and funny.
+- If "context" is present and non-empty, you MUST reference it.
 - If location data is present, add subtle local flavor
 - Do NOT include disclaimers or explanations
 
