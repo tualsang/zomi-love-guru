@@ -2,8 +2,6 @@
 
 A mobile-first AI-powered compatibility calculator built with Next.js 15, featuring beautiful glassmorphism design, Framer Motion animations, and Google Gemini AI integration.
 
-![Zomi Love Guru Preview](./preview.png)
-
 ## ✨ Features
 
 - **AI-Powered Analysis**: Uses Google Gemini API to generate witty, personalized compatibility readings
@@ -193,7 +191,6 @@ Modify `components/ResultCard.tsx` to change the card appearance. The card is de
 4. Add environment variables in Vercel dashboard
 5. Deploy!
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/zomi-love-guru)
 
 ### Environment Variables in Vercel
 Add these in your Vercel project settings:
