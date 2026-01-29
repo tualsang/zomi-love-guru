@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, ArrowLeft, Share2, RefreshCw } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import ResultCard from '@/components/ResultCard';
 
 interface ResultData {
@@ -14,16 +13,26 @@ interface ResultData {
   isEasterEgg: boolean;
 }
 
-// Heart-shaped confetti configuration
-const heartShape = confetti.shapeFromPath({
-  path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
-});
-
 export default function ResultPage() {
   const [result, setResult] = useState<ResultData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const confettiRef = useRef<any>(null);
 
-  const fireConfetti = useCallback(() => {
+  const fireConfetti = useCallback(async () => {
+    // Dynamically import confetti only in browser
+    if (!confettiRef.current) {
+      const confettiModule = await import('canvas-confetti');
+      confettiRef.current = confettiModule.default;
+    }
+    
+    const confetti = confettiRef.current;
+    
+    // Create heart shape
+    const heartShape = confetti.shapeFromPath({
+      path: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+    });
+
     const duration = 4000;
     const animationEnd = Date.now() + duration;
     const colors = ['#ec4899', '#a855f7', '#f472b6', '#c084fc', '#fbbf24'];

@@ -315,7 +315,7 @@ export function validateFormData(data: FormData): ValidationResult {
     crush: {
       name: sanitizeString(data.crush.name),
       fullName: sanitizeString(data.crush.fullName || data.crush.name),
-      age: data.crush.age ? sanitizeNumber(data.crush.age).toString() : 'Not provided',
+      age: sanitizeNumber(data.crush.age)?.toString() ?? 'Not provided',
       dob: formatDOB(data.crush.dob),
       location: formatLocation(data.crush.location),
     },
