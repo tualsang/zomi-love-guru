@@ -183,7 +183,7 @@ export function generateFallbackResponse(
   userName: string,
   crushName: string
 ): GeminiResponse {
-  const percentage = Math.floor(Math.random() * 31) + 60; // Random 60-90%
+  const percentage = Math.floor(Math.random() * 100); // Random 0–99%
   
   const summaries = [
     `You and ${crushName} are a ${percentage}% match! The cosmic energies suggest an intriguing connection between you two. There's a spark waiting to be ignited, and the universe is curious to see where it leads. Keep your heart open to the possibilities!`,

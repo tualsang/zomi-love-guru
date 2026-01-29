@@ -114,10 +114,15 @@ export async function POST(request: NextRequest): Promise<NextResponse<Calculate
       timezone: body.metadata?.timezone || 'UTC',
     };
 
-    // Don't await - let it run in background
-    appendToSheet(
-      prepareSheetRowData(sanitizedData, percentage, summary, metadata)
-    ).catch((err) => console.error('Sheet logging failed:', err));
+    // Must await in serverless environment
+    try {
+      await appendToSheet(
+        prepareSheetRowData(sanitizedData, percentage, summary, metadata)
+      );
+    } catch (err) {
+      console.error('Sheet logging failed:', err);
+      // Don't fail the request if sheet logging fails
+    }
 
     // === STEP 7: Return Response ===
     return NextResponse.json(
