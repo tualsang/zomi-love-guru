@@ -114,17 +114,18 @@ export default function InputForm({ onSubmit }: InputFormProps) {
     }
   };
 
-  const handleFieldChange = (field: string, value: string, setter: (v: string) => void) => {
-    setter(value);
-    const error = validateField(field, value);
-    setErrors(prev => {
-      if (error) {
-        return { ...prev, [field]: error };
-      }
-      const { [field]: _unused, ...rest } = prev;
-      return rest;
-    });
-  };
+const handleFieldChange = (field: string, value: string, setter: (v: string) => void) => {
+  setter(value);
+  const error = validateField(field, value);
+  setErrors(prev => {
+    if (error) {
+      return { ...prev, [field]: error };
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [field]: _unused, ...rest } = prev;
+    return rest;
+  });
+};
 
   const buildFormData = (): FormData => {
     const buildDOB = (day: string, month: string, year: string): DateOfBirth | undefined => {

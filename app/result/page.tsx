@@ -101,7 +101,7 @@ export default function ResultPage() {
           text: shareText,
           url: window.location.origin,
         });
-      } catch (_e) {
+      } catch {
         // User cancelled or error
         console.log('Share cancelled');
       }
