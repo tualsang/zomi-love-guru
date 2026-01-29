@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Heart, ChevronDown, ChevronUp, MapPin, Calendar, Hash, MessageSquare } from 'lucide-react';
 import type { FormData, DateOfBirth, Location } from '@/lib/types';
@@ -15,13 +15,56 @@ const VALIDATION = {
   NAME_MAX: 100,
   AGE_MIN: 1,
   AGE_MAX: 99,
-  MONTH_MIN: 1,
-  MONTH_MAX: 12,
-  DAY_MIN: 1,
-  DAY_MAX: 31,
-  YEAR_MIN: 1900,
-  YEAR_MAX: 2026,
   CONTEXT_MAX: 500,
+};
+
+const MONTHS = [
+  { value: '1', label: 'January' },
+  { value: '2', label: 'February' },
+  { value: '3', label: 'March' },
+  { value: '4', label: 'April' },
+  { value: '5', label: 'May' },
+  { value: '6', label: 'June' },
+  { value: '7', label: 'July' },
+  { value: '8', label: 'August' },
+  { value: '9', label: 'September' },
+  { value: '10', label: 'October' },
+  { value: '11', label: 'November' },
+  { value: '12', label: 'December' },
+];
+
+// Generate days 1-31
+const DAYS = Array.from({ length: 31 }, (_, i) => ({
+  value: String(i + 1),
+  label: String(i + 1),
+}));
+
+// Generate years from current year back to 1925
+const CURRENT_YEAR = new Date().getFullYear();
+const YEARS = Array.from({ length: CURRENT_YEAR - 1925 + 1 }, (_, i) => ({
+  value: String(CURRENT_YEAR - i),
+  label: String(CURRENT_YEAR - i),
+}));
+
+// Calculate age from DOB
+const calculateAgeFromDOB = (year: string, month?: string, day?: string): number | null => {
+  if (!year) return null;
+  
+  const birthYear = parseInt(year, 10);
+  const birthMonth = month ? parseInt(month, 10) - 1 : 0;
+  const birthDay = day ? parseInt(day, 10) : 1;
+  
+  const today = new Date();
+  const birthDate = new Date(birthYear, birthMonth, birthDay);
+  
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  
+  return age;
 };
 
 export default function InputForm({ onSubmit }: InputFormProps) {
@@ -57,6 +100,34 @@ export default function InputForm({ onSubmit }: InputFormProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Validate age matches DOB
+  const validateAgeWithDOB = (age: string, year: string, month: string, day: string): string | null => {
+    if (!age || !year) return null;
+    
+    const enteredAge = parseInt(age, 10);
+    const calculatedAge = calculateAgeFromDOB(year, month, day);
+    
+    if (calculatedAge === null) return null;
+    
+    // Allow 1 year tolerance (birthday might not have happened yet this year)
+    if (Math.abs(enteredAge - calculatedAge) > 1) {
+      return `Age doesn't match DOB (should be ~${calculatedAge})`;
+    }
+    
+    return null;
+  };
+
+  // Memoized age/DOB mismatch errors
+  const userAgeMismatch = useMemo(() => 
+    validateAgeWithDOB(userAge, userDobYear, userDobMonth, userDobDay),
+    [userAge, userDobYear, userDobMonth, userDobDay]
+  );
+  
+  const crushAgeMismatch = useMemo(() => 
+    validateAgeWithDOB(crushAge, crushDobYear, crushDobMonth, crushDobDay),
+    [crushAge, crushDobYear, crushDobMonth, crushDobDay]
+  );
+
   // Validation helper
   const validateField = (field: string, value: string): string | null => {
     switch (field) {
@@ -68,38 +139,11 @@ export default function InputForm({ onSubmit }: InputFormProps) {
         
       case 'userAge':
       case 'crushAge':
-        if (!value) return null; // Optional
+        if (!value) return null;
         const age = parseInt(value, 10);
         if (isNaN(age) || !Number.isInteger(parseFloat(value))) return 'Must be a whole number';
         if (age < VALIDATION.AGE_MIN || age > VALIDATION.AGE_MAX) {
           return `Must be ${VALIDATION.AGE_MIN}-${VALIDATION.AGE_MAX}`;
-        }
-        return null;
-        
-      case 'userDobMonth':
-      case 'crushDobMonth':
-        if (!value) return null;
-        const month = parseInt(value, 10);
-        if (isNaN(month) || month < VALIDATION.MONTH_MIN || month > VALIDATION.MONTH_MAX) {
-          return 'Month: 1-12';
-        }
-        return null;
-        
-      case 'userDobDay':
-      case 'crushDobDay':
-        if (!value) return null;
-        const day = parseInt(value, 10);
-        if (isNaN(day) || day < VALIDATION.DAY_MIN || day > VALIDATION.DAY_MAX) {
-          return 'Day: 1-31';
-        }
-        return null;
-        
-      case 'userDobYear':
-      case 'crushDobYear':
-        if (!value) return null;
-        const year = parseInt(value, 10);
-        if (isNaN(year) || year < VALIDATION.YEAR_MIN || year > VALIDATION.YEAR_MAX) {
-          return `Year: ${VALIDATION.YEAR_MIN}-${VALIDATION.YEAR_MAX}`;
         }
         return null;
         
@@ -114,18 +158,18 @@ export default function InputForm({ onSubmit }: InputFormProps) {
     }
   };
 
-const handleFieldChange = (field: string, value: string, setter: (v: string) => void) => {
-  setter(value);
-  const error = validateField(field, value);
-  setErrors(prev => {
-    if (error) {
-      return { ...prev, [field]: error };
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { [field]: _unused, ...rest } = prev;
-    return rest;
-  });
-};
+  const handleFieldChange = (field: string, value: string, setter: (v: string) => void) => {
+    setter(value);
+    const error = validateField(field, value);
+    setErrors(prev => {
+      if (error) {
+        return { ...prev, [field]: error };
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [field]: _unused, ...rest } = prev;
+      return rest;
+    });
+  };
 
   const buildFormData = (): FormData => {
     const buildDOB = (day: string, month: string, year: string): DateOfBirth | undefined => {
@@ -164,7 +208,6 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate required fields
     const newErrors: Record<string, string> = {};
     
     const userNameError = validateField('userName', userName);
@@ -173,7 +216,6 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
     const crushNameError = validateField('crushName', crushName);
     if (crushNameError) newErrors.crushName = crushNameError;
     
-    // Validate optional fields if filled
     if (userAge) {
       const err = validateField('userAge', userAge);
       if (err) newErrors.userAge = err;
@@ -182,34 +224,14 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
       const err = validateField('crushAge', crushAge);
       if (err) newErrors.crushAge = err;
     }
-    if (userDobMonth) {
-      const err = validateField('userDobMonth', userDobMonth);
-      if (err) newErrors.userDobMonth = err;
-    }
-    if (userDobDay) {
-      const err = validateField('userDobDay', userDobDay);
-      if (err) newErrors.userDobDay = err;
-    }
-    if (userDobYear) {
-      const err = validateField('userDobYear', userDobYear);
-      if (err) newErrors.userDobYear = err;
-    }
-    if (crushDobMonth) {
-      const err = validateField('crushDobMonth', crushDobMonth);
-      if (err) newErrors.crushDobMonth = err;
-    }
-    if (crushDobDay) {
-      const err = validateField('crushDobDay', crushDobDay);
-      if (err) newErrors.crushDobDay = err;
-    }
-    if (crushDobYear) {
-      const err = validateField('crushDobYear', crushDobYear);
-      if (err) newErrors.crushDobYear = err;
-    }
     if (context) {
       const err = validateField('context', context);
       if (err) newErrors.context = err;
     }
+    
+    // Check age/DOB mismatches
+    if (userAgeMismatch) newErrors.userAgeMismatch = userAgeMismatch;
+    if (crushAgeMismatch) newErrors.crushAgeMismatch = crushAgeMismatch;
     
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -242,6 +264,18 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
     transition-all duration-300
   `;
 
+  const selectClasses = (hasError: boolean) => `
+    w-full px-3 py-2 rounded-lg text-sm
+    bg-white/60 backdrop-blur-sm
+    border ${hasError ? 'border-red-300' : 'border-pink-200/50'}
+    text-gray-700
+    focus:border-pink-400 focus:ring-2 focus:ring-pink-200/50
+    transition-all duration-300
+    cursor-pointer appearance-none
+    bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M7%207l3%203%203-3%22%2F%3E%3C%2Fsvg%3E')]
+    bg-no-repeat bg-[right_0.5rem_center]
+  `;
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* User Name */}
@@ -268,7 +302,7 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
       <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
           <Heart className="w-4 h-4 text-pink-500 fill-pink-500" />
-          Your Crush's Name
+          Your Crush&apos;s Name
         </label>
         <input
           type="text"
@@ -345,63 +379,54 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
                     value={userAge}
                     onChange={(e) => handleFieldChange('userAge', e.target.value, setUserAge)}
                     placeholder="Your age"
-                    className={smallInputClasses(!!errors.userAge)}
+                    className={smallInputClasses(!!errors.userAge || !!userAgeMismatch)}
                     min={VALIDATION.AGE_MIN}
                     max={VALIDATION.AGE_MAX}
                   />
                   {errors.userAge && (
                     <p className="text-xs text-red-500 mt-1">{errors.userAge}</p>
                   )}
+                  {!errors.userAge && userAgeMismatch && (
+                    <p className="text-xs text-orange-500 mt-1">{userAgeMismatch}</p>
+                  )}
                 </div>
 
-                {/* Date of Birth */}
+                {/* Date of Birth - Dropdowns */}
                 <div>
                   <label className="text-xs text-gray-600 mb-1 flex items-center gap-1">
                     <Calendar className="w-3 h-3" /> Date of Birth
                   </label>
                   <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <input
-                        type="number"
-                        value={userDobMonth}
-                        onChange={(e) => handleFieldChange('userDobMonth', e.target.value, setUserDobMonth)}
-                        placeholder="Month"
-                        className={smallInputClasses(!!errors.userDobMonth)}
-                        min={VALIDATION.MONTH_MIN}
-                        max={VALIDATION.MONTH_MAX}
-                      />
-                      {errors.userDobMonth && (
-                        <p className="text-xs text-red-500 mt-1">{errors.userDobMonth}</p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        value={userDobDay}
-                        onChange={(e) => handleFieldChange('userDobDay', e.target.value, setUserDobDay)}
-                        placeholder="Day"
-                        className={smallInputClasses(!!errors.userDobDay)}
-                        min={VALIDATION.DAY_MIN}
-                        max={VALIDATION.DAY_MAX}
-                      />
-                      {errors.userDobDay && (
-                        <p className="text-xs text-red-500 mt-1">{errors.userDobDay}</p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        value={userDobYear}
-                        onChange={(e) => handleFieldChange('userDobYear', e.target.value, setUserDobYear)}
-                        placeholder="Year"
-                        className={smallInputClasses(!!errors.userDobYear)}
-                        min={VALIDATION.YEAR_MIN}
-                        max={VALIDATION.YEAR_MAX}
-                      />
-                      {errors.userDobYear && (
-                        <p className="text-xs text-red-500 mt-1">{errors.userDobYear}</p>
-                      )}
-                    </div>
+                    <select
+                      value={userDobMonth}
+                      onChange={(e) => setUserDobMonth(e.target.value)}
+                      className={selectClasses(false)}
+                    >
+                      <option value="">Month</option>
+                      {MONTHS.map((m) => (
+                        <option key={m.value} value={m.value}>{m.label}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={userDobDay}
+                      onChange={(e) => setUserDobDay(e.target.value)}
+                      className={selectClasses(false)}
+                    >
+                      <option value="">Day</option>
+                      {DAYS.map((d) => (
+                        <option key={d.value} value={d.value}>{d.label}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={userDobYear}
+                      onChange={(e) => setUserDobYear(e.target.value)}
+                      className={selectClasses(false)}
+                    >
+                      <option value="">Year</option>
+                      {YEARS.map((y) => (
+                        <option key={y.value} value={y.value}>{y.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
@@ -435,7 +460,7 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
               <div className="space-y-4 p-4 rounded-2xl bg-purple-50/50 border border-purple-200/30">
                 <h3 className="text-sm font-semibold text-purple-600 flex items-center gap-2">
                   <Heart className="w-4 h-4 fill-purple-500" />
-                  Your Crush's Details
+                  Your Crush&apos;s Details
                 </h3>
 
                 {/* Full Name */}
@@ -461,63 +486,54 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
                     value={crushAge}
                     onChange={(e) => handleFieldChange('crushAge', e.target.value, setCrushAge)}
                     placeholder="Their age"
-                    className={smallInputClasses(!!errors.crushAge)}
+                    className={smallInputClasses(!!errors.crushAge || !!crushAgeMismatch)}
                     min={VALIDATION.AGE_MIN}
                     max={VALIDATION.AGE_MAX}
                   />
                   {errors.crushAge && (
                     <p className="text-xs text-red-500 mt-1">{errors.crushAge}</p>
                   )}
+                  {!errors.crushAge && crushAgeMismatch && (
+                    <p className="text-xs text-orange-500 mt-1">{crushAgeMismatch}</p>
+                  )}
                 </div>
 
-                {/* Date of Birth */}
+                {/* Date of Birth - Dropdowns */}
                 <div>
                   <label className="text-xs text-gray-600 mb-1 flex items-center gap-1">
                     <Calendar className="w-3 h-3" /> Date of Birth
                   </label>
                   <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <input
-                        type="number"
-                        value={crushDobMonth}
-                        onChange={(e) => handleFieldChange('crushDobMonth', e.target.value, setCrushDobMonth)}
-                        placeholder="Month"
-                        className={smallInputClasses(!!errors.crushDobMonth)}
-                        min={VALIDATION.MONTH_MIN}
-                        max={VALIDATION.MONTH_MAX}
-                      />
-                      {errors.crushDobMonth && (
-                        <p className="text-xs text-red-500 mt-1">{errors.crushDobMonth}</p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        value={crushDobDay}
-                        onChange={(e) => handleFieldChange('crushDobDay', e.target.value, setCrushDobDay)}
-                        placeholder="Day"
-                        className={smallInputClasses(!!errors.crushDobDay)}
-                        min={VALIDATION.DAY_MIN}
-                        max={VALIDATION.DAY_MAX}
-                      />
-                      {errors.crushDobDay && (
-                        <p className="text-xs text-red-500 mt-1">{errors.crushDobDay}</p>
-                      )}
-                    </div>
-                    <div>
-                      <input
-                        type="number"
-                        value={crushDobYear}
-                        onChange={(e) => handleFieldChange('crushDobYear', e.target.value, setCrushDobYear)}
-                        placeholder="Year"
-                        className={smallInputClasses(!!errors.crushDobYear)}
-                        min={VALIDATION.YEAR_MIN}
-                        max={VALIDATION.YEAR_MAX}
-                      />
-                      {errors.crushDobYear && (
-                        <p className="text-xs text-red-500 mt-1">{errors.crushDobYear}</p>
-                      )}
-                    </div>
+                    <select
+                      value={crushDobMonth}
+                      onChange={(e) => setCrushDobMonth(e.target.value)}
+                      className={selectClasses(false)}
+                    >
+                      <option value="">Month</option>
+                      {MONTHS.map((m) => (
+                        <option key={m.value} value={m.value}>{m.label}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={crushDobDay}
+                      onChange={(e) => setCrushDobDay(e.target.value)}
+                      className={selectClasses(false)}
+                    >
+                      <option value="">Day</option>
+                      {DAYS.map((d) => (
+                        <option key={d.value} value={d.value}>{d.label}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={crushDobYear}
+                      onChange={(e) => setCrushDobYear(e.target.value)}
+                      className={selectClasses(false)}
+                    >
+                      <option value="">Year</option>
+                      {YEARS.map((y) => (
+                        <option key={y.value} value={y.value}>{y.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 

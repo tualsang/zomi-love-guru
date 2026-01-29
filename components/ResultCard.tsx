@@ -271,7 +271,7 @@ export default function ResultCard({
             >
               <p 
                 className="text-gray-700 leading-relaxed text-center"
-                style={{ fontSize: '40px', lineHeight: '1.6' }}
+                style={{ fontSize: '35px', lineHeight: '1.6' }}
               >
                 {summary}
               </p>
