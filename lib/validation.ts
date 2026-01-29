@@ -308,7 +308,7 @@ export function validateFormData(data: FormData): ValidationResult {
     user: {
       name: sanitizeString(data.user.name),
       fullName: sanitizeString(data.user.fullName || data.user.name),
-      age: data.user.age ? sanitizeNumber(data.user.age).toString() : 'Not provided',
+      age: data.user.age ? (sanitizeNumber(data.user.age)?.toString() ?? 'Not provided') : 'Not provided',
       dob: formatDOB(data.user.dob),
       location: formatLocation(data.user.location),
     },
