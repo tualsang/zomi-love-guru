@@ -122,7 +122,7 @@ export async function callGeminiAPI(data: SanitizedFormData): Promise<GeminiResp
   try {
     // Use Gemini 1.5 Flash for fast responses
     const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
+      model: 'gemini-2.5-flash-lite',
       generationConfig: {
         temperature: 0.8,
         topP: 0.95,

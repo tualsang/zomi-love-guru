@@ -268,7 +268,7 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
       <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
           <Heart className="w-4 h-4 text-pink-500 fill-pink-500" />
-          Your Crush &apos s Name
+          Your Crush's Name
         </label>
         <input
           type="text"
@@ -435,7 +435,7 @@ const handleFieldChange = (field: string, value: string, setter: (v: string) => 
               <div className="space-y-4 p-4 rounded-2xl bg-purple-50/50 border border-purple-200/30">
                 <h3 className="text-sm font-semibold text-purple-600 flex items-center gap-2">
                   <Heart className="w-4 h-4 fill-purple-500" />
-                  Your Crush &apos s Details
+                  Your Crush's Details
                 </h3>
 
                 {/* Full Name */}

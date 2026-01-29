@@ -28,11 +28,14 @@ const SHEET_HEADERS = [
  */
 function getServiceAccountAuth(): JWT {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  const key = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
-
-  if (!email || !key) {
+  
+  // Decode from base64
+  const keyBase64 = process.env.GOOGLE_PRIVATE_KEY_BASE64;
+  if (!email || !keyBase64) {
     throw new Error('Google Sheets credentials not configured');
   }
+  
+  const key = Buffer.from(keyBase64, 'base64').toString('utf-8');
 
   return new JWT({
     email,
