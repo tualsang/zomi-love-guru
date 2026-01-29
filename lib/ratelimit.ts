@@ -39,7 +39,7 @@ export function getClientIdentifier(request: Request): string {
   const cfConnectingIp = request.headers.get('cf-connecting-ip');
 
   // Use the first available IP
-  let ip = cfConnectingIp || realIp || forwarded?.split(',')[0]?.trim() || 'unknown';
+  const ip = cfConnectingIp || realIp || forwarded?.split(',')[0]?.trim() || 'unknown';
 
   // Hash the IP for privacy
   return `client_${hashString(ip)}`;

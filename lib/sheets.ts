@@ -2,7 +2,7 @@
 // Google Sheets Integration for Zomi Love Guru
 // ==============================================
 
-import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
 import type { SheetRowData } from './types';
 
@@ -44,7 +44,7 @@ function getServiceAccountAuth(): JWT {
 /**
  * Get or create the worksheet
  */
-async function getOrCreateSheet(doc: GoogleSpreadsheet): Promise<any> {
+async function getOrCreateSheet(doc: GoogleSpreadsheet): Promise<GoogleSpreadsheetWorksheet> {
   // Load document properties and worksheets
   await doc.loadInfo();
 

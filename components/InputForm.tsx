@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Heart, ChevronDown, ChevronUp, MapPin, Calendar, Hash, MessageSquare } from 'lucide-react';
-import type { FormData, PersonData, DateOfBirth, Location, ValidationError } from '@/lib/types';
+import type { FormData, DateOfBirth, Location } from '@/lib/types';
 
 interface InputFormProps {
   onSubmit: (data: FormData) => Promise<void>;
@@ -121,7 +121,7 @@ export default function InputForm({ onSubmit }: InputFormProps) {
       if (error) {
         return { ...prev, [field]: error };
       }
-      const { [field]: _, ...rest } = prev;
+      const { [field]: _unused, ...rest } = prev;
       return rest;
     });
   };
@@ -267,7 +267,7 @@ export default function InputForm({ onSubmit }: InputFormProps) {
       <div className="space-y-2">
         <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
           <Heart className="w-4 h-4 text-pink-500 fill-pink-500" />
-          Your Crush's Name
+          Your Crush &apos s Name
         </label>
         <input
           type="text"
@@ -434,7 +434,7 @@ export default function InputForm({ onSubmit }: InputFormProps) {
               <div className="space-y-4 p-4 rounded-2xl bg-purple-50/50 border border-purple-200/30">
                 <h3 className="text-sm font-semibold text-purple-600 flex items-center gap-2">
                   <Heart className="w-4 h-4 fill-purple-500" />
-                  Your Crush's Details
+                  Your Crush &apos s Details
                 </h3>
 
                 {/* Full Name */}

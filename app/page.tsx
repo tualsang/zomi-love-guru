@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, ChevronDown, ChevronUp, Info } from 'lucide-react';
+import { Heart, Sparkles, Info } from 'lucide-react';
 import InputForm from '@/components/InputForm';
 import LoadingScreen from '@/components/LoadingScreen';
 import type { FormData, CalculateResponse } from '@/lib/types';
