@@ -46,6 +46,46 @@ const YEARS = Array.from({ length: CURRENT_YEAR - 1925 + 1 }, (_, i) => ({
   label: String(CURRENT_YEAR - i),
 }));
 
+// Indian States and Union Territories
+const STATES = [
+  { value: 'AN', label: 'Andaman and Nicobar Islands' },
+  { value: 'AP', label: 'Andhra Pradesh' },
+  { value: 'AR', label: 'Arunachal Pradesh' },
+  { value: 'AS', label: 'Assam' },
+  { value: 'BR', label: 'Bihar' },
+  { value: 'CH', label: 'Chandigarh' },
+  { value: 'CT', label: 'Chhattisgarh' },
+  { value: 'DN', label: 'Dadra and Nagar Haveli and Daman and Diu' },
+  { value: 'DL', label: 'Delhi' },
+  { value: 'GA', label: 'Goa' },
+  { value: 'GJ', label: 'Gujarat' },
+  { value: 'HR', label: 'Haryana' },
+  { value: 'HP', label: 'Himachal Pradesh' },
+  { value: 'JK', label: 'Jammu and Kashmir' },
+  { value: 'JH', label: 'Jharkhand' },
+  { value: 'KA', label: 'Karnataka' },
+  { value: 'KL', label: 'Kerala' },
+  { value: 'LA', label: 'Ladakh' },
+  { value: 'LD', label: 'Lakshadweep' },
+  { value: 'MP', label: 'Madhya Pradesh' },
+  { value: 'MH', label: 'Maharashtra' },
+  { value: 'MN', label: 'Manipur' },
+  { value: 'ML', label: 'Meghalaya' },
+  { value: 'MZ', label: 'Mizoram' },
+  { value: 'NL', label: 'Nagaland' },
+  { value: 'OR', label: 'Odisha' },
+  { value: 'PY', label: 'Puducherry' },
+  { value: 'PB', label: 'Punjab' },
+  { value: 'RJ', label: 'Rajasthan' },
+  { value: 'SK', label: 'Sikkim' },
+  { value: 'TN', label: 'Tamil Nadu' },
+  { value: 'TG', label: 'Telangana' },
+  { value: 'TR', label: 'Tripura' },
+  { value: 'UP', label: 'Uttar Pradesh' },
+  { value: 'UK', label: 'Uttarakhand' },
+  { value: 'WB', label: 'West Bengal' },
+];
+
 // Calculate age from DOB
 const calculateAgeFromDOB = (year: string, month?: string, day?: string): number | null => {
   if (!year) return null;
@@ -171,6 +211,12 @@ export default function InputForm({ onSubmit }: InputFormProps) {
     });
   };
 
+  // Helper to get state label from value
+  const getStateLabelFromValue = (value: string): string | undefined => {
+    const state = STATES.find(s => s.value === value);
+    return state?.label;
+  };
+
   const buildFormData = (): FormData => {
     const buildDOB = (day: string, month: string, year: string): DateOfBirth | undefined => {
       if (!day && !month && !year) return undefined;
@@ -181,9 +227,11 @@ export default function InputForm({ onSubmit }: InputFormProps) {
       };
     };
 
-    const buildLocation = (city: string, state: string): Location | undefined => {
-      if (!city && !state) return undefined;
-      return { city: city || undefined, state: state || undefined };
+    const buildLocation = (city: string, stateValue: string): Location | undefined => {
+      if (!city && !stateValue) return undefined;
+      // Store the full state name instead of the code
+      const stateLabel = getStateLabelFromValue(stateValue);
+      return { city: city || undefined, state: stateLabel || undefined };
     };
 
     return {
@@ -444,14 +492,16 @@ export default function InputForm({ onSubmit }: InputFormProps) {
                       className={smallInputClasses(false)}
                       maxLength={VALIDATION.NAME_MAX}
                     />
-                    <input
-                      type="text"
+                    <select
                       value={userState}
                       onChange={(e) => setUserState(e.target.value)}
-                      placeholder="State/Region"
-                      className={smallInputClasses(false)}
-                      maxLength={VALIDATION.NAME_MAX}
-                    />
+                      className={selectClasses(false)}
+                    >
+                      <option value="">State</option>
+                      {STATES.map((s) => (
+                        <option key={s.value} value={s.value}>{s.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>
@@ -551,14 +601,16 @@ export default function InputForm({ onSubmit }: InputFormProps) {
                       className={smallInputClasses(false)}
                       maxLength={VALIDATION.NAME_MAX}
                     />
-                    <input
-                      type="text"
+                    <select
                       value={crushState}
                       onChange={(e) => setCrushState(e.target.value)}
-                      placeholder="State/Region"
-                      className={smallInputClasses(false)}
-                      maxLength={VALIDATION.NAME_MAX}
-                    />
+                      className={selectClasses(false)}
+                    >
+                      <option value="">State</option>
+                      {STATES.map((s) => (
+                        <option key={s.value} value={s.value}>{s.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               </div>

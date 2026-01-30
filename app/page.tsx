@@ -88,7 +88,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-8 sm:mb-10 relative z-10"
+        className="text-center mb-8 sm:mb-10 relative z-10 w-full max-w-md px-2"
       >
         <motion.div
           animate={{ scale: [1, 1.1, 1] }}
@@ -98,7 +98,7 @@ export default function HomePage() {
           <Heart className="w-12 h-12 sm:w-16 sm:h-16 text-pink-500 fill-pink-500" />
         </motion.div>
         
-        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-3">
+        <h1 className="font-display text-[clamp(1.75rem,7vw,3.75rem)] font-bold mb-3 leading-tight">
           <span className="text-gradient">Neino 🩷 Namtal</span>
         </h1>
         
@@ -164,7 +164,7 @@ export default function HomePage() {
         transition={{ delay: 0.6 }}
         className="mt-auto pt-8 pb-4 text-center text-xs text-gray-400"
       >
-        <p>Made with 💕 by You</p>
+        <p>Made with Neino 💕 Namtal</p>
         <p className="mt-1">This is for entertainment purposes only</p>
       </motion.footer>
     </main>

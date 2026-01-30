@@ -163,7 +163,7 @@ export default function ResultCard({
                 className="text-gray-500 font-light tracking-wide"
                 style={{ fontSize: '42px' }}
               >
-                No geel itna pen...
+                No geel ki-itna pen...
               </p>
             </div>
 

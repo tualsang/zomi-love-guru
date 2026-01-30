@@ -125,7 +125,7 @@ export async function callGeminiAPI(data: SanitizedFormData): Promise<GeminiResp
 
   try {
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-lite',
+      model: 'gemini-2.0-flash-lite',
       generationConfig: {
         temperature: 1.0,  // Increased for more variety
         topP: 0.95,
