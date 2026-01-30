@@ -259,7 +259,7 @@ export default function ResultCard({
                   <span
                     className="font-bold"
                     style={{
-                      fontSize: '130px',
+                      fontSize: '110px',
                       background: 'linear-gradient(135deg, #ec4899, #a855f7)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
