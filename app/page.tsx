@@ -88,7 +88,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-8 sm:mb-10 relative z-10 w-full max-w-md px-2"
+        className="text-center mb-8 sm:mb-10 relative z-10"
       >
         <motion.div
           animate={{ scale: [1, 1.1, 1] }}
