@@ -4,9 +4,12 @@
 
 import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
-import type { SheetRowData } from './types';
+import type { SheetRowData, ResponseSource } from './types';
 
-// Headers for the Google Sheet - Added Context column
+// Re-export for convenience
+export type { ResponseSource };
+
+// Headers for the Google Sheet - Source is the LAST column
 const SHEET_HEADERS = [
   'Timestamp',
   'User Name',
@@ -22,6 +25,7 @@ const SHEET_HEADERS = [
   'AI Summary',
   'Screen Resolution',
   'Browser/Device Info',
+  'Source',  // LAST column: AI or Fallback
 ];
 
 /**
@@ -30,7 +34,6 @@ const SHEET_HEADERS = [
 function getServiceAccountAuth(): JWT {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
   
-  // Decode from base64 if using base64 encoding
   const keyBase64 = process.env.GOOGLE_PRIVATE_KEY_BASE64;
   const keyRaw = process.env.GOOGLE_PRIVATE_KEY;
   
@@ -75,6 +78,11 @@ async function getOrCreateSheet(doc: GoogleSpreadsheet): Promise<GoogleSpreadshe
   } else {
     try {
       await sheet.loadHeaderRow();
+      
+      const currentHeaders = sheet.headerValues;
+      if (!currentHeaders.includes('Source')) {
+        await sheet.setHeaderRow(SHEET_HEADERS);
+      }
     } catch {
       await sheet.setHeaderRow(SHEET_HEADERS);
     }
@@ -90,7 +98,6 @@ export async function appendToSheet(data: SheetRowData): Promise<boolean> {
   const sheetId = process.env.GOOGLE_SHEET_ID;
 
   if (!sheetId) {
-    console.warn('Google Sheet ID not configured, skipping data storage');
     return false;
   }
 
@@ -115,11 +122,11 @@ export async function appendToSheet(data: SheetRowData): Promise<boolean> {
       'AI Summary': data.aiSummary,
       'Screen Resolution': data.screenResolution,
       'Browser/Device Info': data.browserDeviceInfo,
+      'Source': data.source,  // LAST column
     });
 
     return true;
-  } catch (error) {
-    console.error('Failed to append to Google Sheet:', error);
+  } catch {
     return false;
   }
 }
@@ -140,7 +147,8 @@ export function prepareSheetRowData(
     userAgent: string;
     timestamp: string;
     timezone: string;
-  }
+  },
+  source: ResponseSource
 ): SheetRowData {
   return {
     timestamp: metadata.timestamp,
@@ -157,5 +165,6 @@ export function prepareSheetRowData(
     aiSummary: summary,
     screenResolution: metadata.screenResolution || 'Unknown',
     browserDeviceInfo: metadata.userAgent || 'Unknown',
+    source,
   };
 }

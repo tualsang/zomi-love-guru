@@ -36,7 +36,6 @@ You are not allowed to ask follow-up questions.`;
  * Build the user prompt with sanitized data
  */
 function buildUserPrompt(data: SanitizedFormData): string {
-  // Add randomness hint to encourage varied responses
   const randomSeed = Math.floor(Math.random() * 1000);
   
   return `Generate a Gen-Z and Biblical compatibility result using the following structured data.
@@ -80,7 +79,6 @@ Optional Shared Context:
 function parseGeminiResponse(responseText: string): GeminiResponse {
   let jsonStr = responseText.trim();
 
-  // Remove markdown code blocks if present
   if (jsonStr.startsWith('```json')) {
     jsonStr = jsonStr.slice(7);
   }
@@ -93,26 +91,20 @@ function parseGeminiResponse(responseText: string): GeminiResponse {
 
   jsonStr = jsonStr.trim();
 
-  try {
-    const parsed = JSON.parse(jsonStr);
+  const parsed = JSON.parse(jsonStr);
 
-    if (typeof parsed.percentage !== 'number' || typeof parsed.summary !== 'string') {
-      throw new Error('Invalid response structure');
-    }
-
-    const percentage = Math.max(0, Math.min(100, Math.round(parsed.percentage)));
-
-    const maxSummaryLength = 1000;
-    const summary = parsed.summary.length > maxSummaryLength
-      ? parsed.summary.substring(0, maxSummaryLength) + '...'
-      : parsed.summary;
-
-    return { percentage, summary };
-  } catch (parseError) {
-    console.error('Failed to parse Gemini response:', parseError);
-    console.error('Raw response was:', responseText);
-    throw new Error('Failed to parse AI response');
+  if (typeof parsed.percentage !== 'number' || typeof parsed.summary !== 'string') {
+    throw new Error('Invalid response structure');
   }
+
+  const percentage = Math.max(0, Math.min(100, Math.round(parsed.percentage)));
+
+  const maxSummaryLength = 1000;
+  const summary = parsed.summary.length > maxSummaryLength
+    ? parsed.summary.substring(0, maxSummaryLength) + '...'
+    : parsed.summary;
+
+  return { percentage, summary };
 }
 
 /**
@@ -123,49 +115,27 @@ export async function callGeminiAPI(data: SanitizedFormData): Promise<GeminiResp
     throw new Error('Gemini API key is not configured');
   }
 
-  try {
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-lite',
-      generationConfig: {
-        temperature: 1.0,  // Increased for more variety
-        topP: 0.95,
-        topK: 40,
-        maxOutputTokens: 500,
-      },
-      systemInstruction: buildSystemPrompt(),  // Use proper system instruction
-    });
+  const model = genAI.getGenerativeModel({
+    model: 'gemini-2.0-flash-lite',
+    generationConfig: {
+      temperature: 1.0,
+      topP: 0.95,
+      topK: 40,
+      maxOutputTokens: 500,
+    },
+    systemInstruction: buildSystemPrompt(),
+  });
 
-    const userPrompt = buildUserPrompt(data);
+  const userPrompt = buildUserPrompt(data);
+  const result = await model.generateContent(userPrompt);
+  const response = result.response;
+  const responseText = response.text();
 
-    // Use generateContent instead of chat for single requests
-    const result = await model.generateContent(userPrompt);
-    const response = result.response;
-    const responseText = response.text();
-
-    console.log('Gemini raw response:', responseText);
-
-    if (!responseText) {
-      throw new Error('Empty response from Gemini');
-    }
-
-    const parsed = parseGeminiResponse(responseText);
-    console.log('Parsed percentage:', parsed.percentage);
-    
-    return parsed;
-  } catch (error) {
-    console.error('Gemini API error:', error);
-
-    if (error instanceof Error) {
-      if (error.message.includes('quota') || error.message.includes('rate')) {
-        throw new Error('Service is temporarily busy. Please try again in a moment.');
-      }
-      if (error.message.includes('API key')) {
-        throw new Error('Service configuration error. Please contact support.');
-      }
-    }
-
-    throw new Error('Failed to generate compatibility analysis. Please try again.');
+  if (!responseText) {
+    throw new Error('Empty response from Gemini');
   }
+
+  return parseGeminiResponse(responseText);
 }
 
 /**

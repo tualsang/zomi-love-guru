@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { validateFormData, isEasterEggCase, getEasterEggResponse } from '@/lib/validation';
 import { sanitizeUserAgent, formatTimestamp } from '@/lib/sanitization';
 import { callGeminiAPI, generateFallbackResponse } from '@/lib/gemini';
-import { appendToSheet, prepareSheetRowData } from '@/lib/sheets';
+import { appendToSheet, prepareSheetRowData, type ResponseSource } from '@/lib/sheets';
 import { checkRateLimit, getClientIdentifier, getRateLimitHeaders } from '@/lib/ratelimit';
 import type { CalculateRequest, CalculateResponse } from '@/lib/types';
 
@@ -82,20 +82,21 @@ export async function POST(request: NextRequest): Promise<NextResponse<Calculate
 
     let percentage: number;
     let summary: string;
+    let source: ResponseSource;
 
     if (isEasterEgg) {
-      // Return self-love response
       const easterEggResponse = getEasterEggResponse(sanitizedData.user.name);
       percentage = easterEggResponse.percentage;
       summary = easterEggResponse.summary;
+      source = 'AI';  // Easter egg counts as intentional response
     } else {
-      // === STEP 5: Call Gemini API ===
+      // === STEP 5: Call Gemini API (single attempt) ===
       try {
         const geminiResponse = await callGeminiAPI(sanitizedData);
         percentage = geminiResponse.percentage;
         summary = geminiResponse.summary;
-      } catch (geminiError) {
-        console.error('Gemini API failed, using fallback:', geminiError);
+        source = 'AI';
+      } catch {
         // Use fallback response if Gemini fails
         const fallback = generateFallbackResponse(
           sanitizedData.user.name,
@@ -103,10 +104,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<Calculate
         );
         percentage = fallback.percentage;
         summary = fallback.summary;
+        source = 'Fallback';
       }
     }
 
-    // === STEP 6: Log to Google Sheets (non-blocking) ===
+    // === STEP 6: Log to Google Sheets ===
     const metadata = {
       screenResolution: body.metadata?.screenResolution || 'Unknown',
       userAgent: sanitizeUserAgent(body.metadata?.userAgent),
@@ -114,13 +116,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<Calculate
       timezone: body.metadata?.timezone || 'UTC',
     };
 
-    // Must await in serverless environment
     try {
       await appendToSheet(
-        prepareSheetRowData(sanitizedData, percentage, summary, metadata)
+        prepareSheetRowData(sanitizedData, percentage, summary, metadata, source)
       );
-    } catch (err) {
-      console.error('Sheet logging failed:', err);
+    } catch {
       // Don't fail the request if sheet logging fails
     }
 
@@ -141,9 +141,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Calculate
         headers: getRateLimitHeaders(rateLimit.remaining, rateLimit.resetIn),
       }
     );
-  } catch (error) {
-    console.error('Calculate API error:', error);
-
+  } catch {
     return NextResponse.json(
       {
         success: false,

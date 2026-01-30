@@ -101,6 +101,9 @@ export interface RateLimitEntry {
   firstRequest: number;
 }
 
+// Response source type
+export type ResponseSource = 'AI' | 'Fallback';
+
 // Google Sheets row data
 export interface SheetRowData {
   timestamp: string;
@@ -117,6 +120,7 @@ export interface SheetRowData {
   aiSummary: string;
   screenResolution: string;
   browserDeviceInfo: string;
+  source: ResponseSource;
 }
 
 // Loading messages for animation
