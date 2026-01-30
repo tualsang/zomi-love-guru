@@ -98,7 +98,7 @@ export default function HomePage() {
           <Heart className="w-12 h-12 sm:w-16 sm:h-16 text-pink-500 fill-pink-500" />
         </motion.div>
         
-        <h1 className="font-display text-[clamp(1.75rem,7vw,3.75rem)] font-bold mb-3 leading-tight">
+        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-3">
           <span className="text-gradient">Neino 🩷 Namtal</span>
         </h1>
         
