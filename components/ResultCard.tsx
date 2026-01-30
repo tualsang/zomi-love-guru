@@ -283,7 +283,7 @@ export default function ResultCard({
                 className="text-gray-400 mb-4"
                 style={{ fontSize: '32px' }}
               >
-                Calculated with ✨ cosmic magic ✨
+                Calculated with ✨ itna ✨
               </p>
               <p 
                 className="text-gray-300"

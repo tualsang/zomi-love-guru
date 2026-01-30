@@ -99,11 +99,11 @@ export default function HomePage() {
         </motion.div>
         
         <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-3">
-          <span className="text-gradient">Zomi Love Guru</span>
+          <span className="text-gradient">Neino 💕 Namtal</span>
         </h1>
         
         <p className="text-gray-600 text-base sm:text-lg max-w-md mx-auto">
-          Discover your connection with our AI-powered compatibility calculator
+          Discover your connection with Neino 💕 Namtal Calculator!
         </p>
         
         <motion.div

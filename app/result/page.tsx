@@ -101,12 +101,12 @@ export default function ResultPage() {
   const handleShare = async () => {
     if (!result) return;
 
-    const shareText = `${result.userName} and ${result.crushName} are ${result.percentage}% compatible! 💕 Calculate your love compatibility at Zomi Love Guru!`;
+    const shareText = `${result.userName} and ${result.crushName} are ${result.percentage}% compatible! 💕 Calculate your biblical love compatibility with Neino & Namtal`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Zomi Love Guru - Compatibility Result',
+          title: 'Neino 💕 Namtal - Compatibility Result',
           text: shareText,
           url: window.location.origin,
         });
@@ -272,7 +272,7 @@ export default function ResultPage() {
         transition={{ delay: 0.5 }}
         className="mt-auto pt-8 pb-4 text-center text-xs text-gray-400"
       >
-        <p>Made with 💕 by Zomi Love Guru</p>
+        <p>Neino 💕 Namtal</p>
         <p className="mt-1">This is for entertainment purposes only</p>
       </motion.footer>
     </main>
