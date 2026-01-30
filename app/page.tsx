@@ -101,10 +101,11 @@ export default function HomePage() {
         <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-3">
           <span className="text-gradient">Neino 🩷 Namtal</span>
         </h1>
-        
-        <p className="text-gray-600 text-base sm:text-lg max-w-md mx-auto">
-          Christ-centered Compatibility Calculator with Neino 💕 Namtal!
-        </p>
+            <p className="text-gray-600 text-base sm:text-lg max-w-md mx-auto">
+              Christ-centered Compatibility Calculator
+              <br />
+              with Neino 💕 Namtal!
+            </p>
         
         <motion.div
           initial={{ opacity: 0 }}

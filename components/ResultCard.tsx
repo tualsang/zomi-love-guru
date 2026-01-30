@@ -100,6 +100,29 @@ export default function ResultCard({
   return '😭 Jonah Had Better Luck 😭';
 };
 
+  const getNameFontSize = (name: string) => {
+    if (name.length > 12) return '40px';
+    if (name.length > 10) return '48px';
+    if (name.length > 7) return '56px';
+    return '64px';
+  };
+
+  const renderSummaryWithBlur = () => {
+    if (!isNameHidden) return summary;
+    
+    // Create a regex to find all instances of the crush's name (case insensitive)
+    const regex = new RegExp(`(${crushName})`, 'gi');
+    const parts = summary.split(regex);
+    
+    return parts.map((part, index) => 
+      part.toLowerCase() === crushName.toLowerCase() ? (
+        <span key={index} className="blur-xl select-none">{part}</span>
+      ) : (
+        part
+      )
+    );
+  };
+
   return (
     <div className="flex flex-col items-center">
       {/* Card Wrapper with Transform for Display */}
@@ -159,6 +182,9 @@ export default function ResultCard({
                     background: 'linear-gradient(135deg, #ec4899, #a855f7)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
+                    padding: '0.15em 0.1em',
+                    margin: '-0.15em -0.1em',
+                    display: 'inline-block',
                   }}
                 >
                   Neino 💕 Namtal
@@ -173,19 +199,19 @@ export default function ResultCard({
               </p>
             </div>
 
-            {/* Names Section - Larger */}
-            <div className="flex items-center justify-center gap-10 mb-12">
-              <div className="text-center">
+            {/* Names Section - Centered Heart */}
+            <div className="flex items-center justify-center gap-10 mb-12 w-full max-w-[950px]">
+              <div className="flex-1 text-right">
                 <p 
-                  className="font-semibold text-gray-800 mb-3"
-                  style={{ fontSize: '64px' }}
+                  className="font-semibold text-gray-800 mb-3 truncate"
+                  style={{ fontSize: getNameFontSize(userName) }}
                 >
                   {userName}
                 </p>
                 <p className="text-pink-400" style={{ fontSize: '32px' }}>You</p>
               </div>
 
-              <div className="relative">
+              <div className="flex-shrink-0">
                 <Heart
                   size={140}
                   className="text-pink-500 fill-pink-500"
@@ -193,17 +219,15 @@ export default function ResultCard({
                 />
               </div>
 
-              <div className="text-center">
-                <div className="flex items-center gap-3 justify-center">
-                  <p
-                    className={`font-semibold text-gray-800 mb-3 transition-all duration-300 ${
-                      isNameHidden ? 'blur-xl select-none' : ''
-                    }`}
-                    style={{ fontSize: '64px' }}
-                  >
-                    {crushName}
-                  </p>
-                </div>
+              <div className="flex-1 text-left">
+                <p
+                  className={`font-semibold text-gray-800 mb-3 truncate transition-all duration-300 ${
+                    isNameHidden ? 'blur-xl select-none' : ''
+                  }`}
+                  style={{ fontSize: getNameFontSize(crushName) }}
+                >
+                  {crushName}
+                </p>
                 <p className="text-purple-400" style={{ fontSize: '32px' }}>Your Crush</p>
               </div>
             </div>
@@ -279,7 +303,7 @@ export default function ResultCard({
                 className="text-gray-700 leading-relaxed text-center"
                 style={{ fontSize: '35px', lineHeight: '1.6' }}
               >
-                {summary}
+                {renderSummaryWithBlur()}
               </p>
             </div>
 
