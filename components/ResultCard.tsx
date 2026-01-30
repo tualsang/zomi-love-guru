@@ -155,7 +155,7 @@ export default function ResultCard({
                     WebkitTextFillColor: 'transparent',
                   }}
                 >
-                  Zomi Love Guru
+                  Neino 💕 Namtal
                 </h1>
                 <Sparkles className="w-16 h-16 text-purple-400" />
               </div>
@@ -163,7 +163,7 @@ export default function ResultCard({
                 className="text-gray-500 font-light tracking-wide"
                 style={{ fontSize: '42px' }}
               >
-                Cosmic Compatibility Reading
+                No geel itna pen...
               </p>
             </div>
 
@@ -283,7 +283,7 @@ export default function ResultCard({
                 className="text-gray-400 mb-4"
                 style={{ fontSize: '32px' }}
               >
-                Calculated with ✨ itna ✨
+                calculated with ✨ itna ✨
               </p>
               <p 
                 className="text-gray-300"

@@ -99,11 +99,11 @@ export default function HomePage() {
         </motion.div>
         
         <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-3">
-          <span className="text-gradient">Neino 💕 Namtal</span>
+          <span className="text-gradient">Neino 🩷 Namtal</span>
         </h1>
         
         <p className="text-gray-600 text-base sm:text-lg max-w-md mx-auto">
-          Discover your connection with Neino 💕 Namtal Calculator!
+          Discover your connection with Neino 💕 Namtal!
         </p>
         
         <motion.div
@@ -113,7 +113,7 @@ export default function HomePage() {
           className="flex items-center justify-center gap-2 mt-3 text-sm text-pink-600"
         >
           <Sparkles className="w-4 h-4" />
-          <span>Mystical • Playful • Fun</span>
+          <span>itna • ngaihna • lungkim-na</span>
           <Sparkles className="w-4 h-4" />
         </motion.div>
       </motion.div>

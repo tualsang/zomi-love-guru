@@ -227,7 +227,7 @@ export default function LoadingScreen() {
           transition={{ delay: 0.5 }}
           className="mt-4 text-sm text-gray-500"
         >
-          Preparing your cosmic reading...
+          Ngaihsut ci-pi a ngaihsun lai...
         </motion.p>
 
         {/* Floating Dots */}

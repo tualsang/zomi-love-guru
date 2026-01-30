@@ -156,7 +156,7 @@ export default function ResultPage() {
             No results found
           </h1>
           <p className="text-gray-500 mb-8">
-            Start a new compatibility calculation to see your results.
+            Start a new compatibility calculation.
           </p>
           <motion.a
             href="/"
