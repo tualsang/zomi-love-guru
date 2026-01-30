@@ -86,13 +86,19 @@ export default function ResultCard({
   };
 
   const getCompatibilityMessage = () => {
-    if (isEasterEgg) return '✨ Self-Love Champion ✨';
-    if (percentage >= 90) return '💕 Soulmates Alert! 💕';
-    if (percentage >= 75) return '💖 Strong Connection 💖';
-    if (percentage >= 60) return '💜 Good Potential 💜';
-    if (percentage >= 40) return '💙 Room to Grow 💙';
-    return '🌱 Keep Exploring 🌱';
-  };
+  if (isEasterEgg) return '✨ Ei leh ei maw? 😂 ✨';
+  if (percentage >= 95) return '💕 Ruth & Boaz Vibes 💕';
+  if (percentage >= 90) return '💒 Wedding Bells Soon 💒';
+  if (percentage >= 80) return '💖 Equally Yoked 💖';
+  if (percentage >= 70) return '💜 Blessed Connection 💜';
+  if (percentage >= 60) return '✝️ Pray About It ✝️';
+  if (percentage >= 50) return '🙏 Faith & Patience 🙏';
+  if (percentage >= 40) return '⏳ Trust His Timing ⏳';
+  if (percentage >= 30) return '📖 Read 1 Corinthians 13 📖';
+  if (percentage >= 20) return '🚪 When God Closes a Door... 🚪';
+  if (percentage >= 10) return '🐟 Plenty of Fish in Galilee 🐟';
+  return '😭 Jonah Had Better Luck 😭';
+};
 
   return (
     <div className="flex flex-col items-center">

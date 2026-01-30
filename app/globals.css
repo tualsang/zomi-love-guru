@@ -97,6 +97,8 @@ body {
     background-clip: text;
     padding: 0 0.1em;
     margin: 0 -0.1em; 
+    padding: 0.1em 0.1em; 
+    margin: -0.1em -0.1em;
     display: inline-block; 
   }
 

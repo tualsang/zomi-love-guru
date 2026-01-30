@@ -5,18 +5,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Sparkles, Stars, Moon, Sun, Cloud } from 'lucide-react';
 
 const LOADING_MESSAGES = [
-  "Scanning heartbeats…",
-  "Consulting the stars…",
-  "Calculating emotional alignment…",
-  "Reading the cosmic signals…",
-  "Analyzing love wavelengths…",
-  "Channeling cupid's wisdom…",
-  "Decoding romantic chemistry…",
-  "Measuring soul connections…",
-  "Processing destiny data…",
-  "Unveiling hidden affinities…",
-  "Synchronizing heart frequencies…",
-  "Mapping emotional constellations…",
+  "Seeking wisdom from Proverbs…",
+  "Consulting the Song of Solomon…",
+  "Praying over your connection…",
+  "Searching for God's plan…",
+  "Checking if two can walk together…",
+  "Measuring with 1 Corinthians 13…",
+  "Asking what God has joined…",
+  "Reading the Book of Ruth…",
+  "Discerning hearts and intentions…",
+  "Looking for a Boaz or Ruth…",
+  "Checking if iron sharpens iron…",
+  "Seeking a cord of three strands…",
 ];
 
 export default function LoadingScreen() {
