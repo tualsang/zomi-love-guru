@@ -14,31 +14,31 @@ const pacifico = Pacifico({
 });
 
 export const metadata: Metadata = {
-  title: 'Zomi Love Guru | Compatibility Calculator',
-  description: 'Discover your connection! Calculate your love compatibility with our AI-powered relationship analyzer.',
-  keywords: ['love calculator', 'compatibility', 'relationship', 'AI', 'zodiac', 'romance'],
-  authors: [{ name: 'Zomi Love Guru' }],
-  creator: 'Zomi Love Guru',
+  title: 'Neino & Namtal',
+  description: 'Discover your connection!',
+  keywords: ['love calculator', 'compatibility', 'relationship', 'zomi', 'AI', 'romance'],
+  authors: [{ name: 'Sang' }],
+  creator: 'Sang',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://neino-namtal.vercel.app',
     siteName: 'Neino & Namtal',
-    title: 'Neino & Namtal | Compatibility Calculator',
+    title: 'Neino & Namtal',
     description: 'Discover your cosmic connection! Calculate your love compatibility with our AI-powered relationship analyzer.',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Zomi Love Guru - Love Compatibility Calculator',
+        alt: 'Neino & Namtal',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Zomi Love Guru | Compatibility Calculator',
-    description: 'Discover your cosmic connection! Calculate your love compatibility with our AI-powered relationship analyzer.',
+    title: 'Neino & Namtal',
+    description: 'Discover your cosmic connection!',
     images: ['/og-image.png'],
   },
   robots: {

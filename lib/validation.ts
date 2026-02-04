@@ -358,10 +358,10 @@ export function isEasterEggCase(data: FormData): boolean {
 
   if (userLocation && crushLocation) {
     const hasDifferentLocation =
-      (userLocation.city && crushLocation.city && 
-       userLocation.city.toLowerCase().trim() !== crushLocation.city.toLowerCase().trim()) ||
-      (userLocation.state && crushLocation.state && 
-       userLocation.state.toLowerCase().trim() !== crushLocation.state.toLowerCase().trim());
+      (userLocation.city && crushLocation.city &&
+        userLocation.city.toLowerCase().trim() !== crushLocation.city.toLowerCase().trim()) ||
+      (userLocation.state && crushLocation.state &&
+        userLocation.state.toLowerCase().trim() !== crushLocation.state.toLowerCase().trim());
 
     if (hasDifferentLocation) {
       return false;
@@ -377,7 +377,7 @@ export function isEasterEggCase(data: FormData): boolean {
 export function getEasterEggResponse(userName: string): { percentage: number; summary: string } {
   return {
     percentage: 100,
-    summary: `You and yourself are a 100% match! Ah ${userName}, trying to date yourself? Bold move! As Matthew 22:39 says, "Love your neighbor as yourself" — but maybe love yourself first before finding a neighbor to love! Your itna for yourself is giving main character energy. Pasian in nang hong it, God loves you, now go find someone else to love too!`,
+    summary: `You and yourself are a 100% match! Ta lawmlawm ${userName}, trying to date yourself? As Matthew 22:39 says, "Nangma pumpi na it bangin na vengte na it in" — but maybe love yourself first before finding a neighbor to love! Pasian in nang hong it, God loves you, now go find someone else to love too!`,
   };
 }
 

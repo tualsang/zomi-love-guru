@@ -108,19 +108,45 @@ export default function ResultCard({
   };
 
   const renderSummaryWithBlur = () => {
-    if (!isNameHidden) return summary;
+    // 1. Split by Zomi brackets [word]
+    // The regex captures the content inside brackets
+    const parts = summary.split(/\[(.*?)\]/g);
 
-    // Create a regex to find all instances of the crush's name (case insensitive)
-    const regex = new RegExp(`(${crushName})`, 'gi');
-    const parts = summary.split(regex);
+    return parts.map((part, index) => {
+      const isZomi = index % 2 === 1;
 
-    return parts.map((part, index) =>
-      part.toLowerCase() === crushName.toLowerCase() ? (
-        <span key={index} className="blur-xl select-none">{part}</span>
-      ) : (
-        part
-      )
-    );
+      // If it's a Zomi word, we just style it (assuming crush name isn't inside a Zomi word)
+      if (isZomi) {
+        return (
+          <span key={index} className="font-bold text-pink-600">
+            {part}
+          </span>
+        );
+      }
+
+      // If it's normal text, we check for name hiding
+      if (!isNameHidden) {
+        return <span key={index}>{part}</span>;
+      }
+
+      // Apply name blurring to this text part
+      const nameRegex = new RegExp(`(${crushName})`, 'gi');
+      const textParts = part.split(nameRegex);
+
+      return (
+        <span key={index}>
+          {textParts.map((subPart, subIndex) =>
+            subPart.toLowerCase() === crushName.toLowerCase() ? (
+              <span key={subIndex} className="blur-xl select-none">
+                {subPart}
+              </span>
+            ) : (
+              subPart
+            )
+          )}
+        </span>
+      );
+    });
   };
 
   return (
@@ -170,7 +196,7 @@ export default function ResultCard({
           </div>
 
           {/* Content */}
-          <div className="relative z-10 h-full flex flex-col items-center px-12 py-16">
+          <div className="relative z-10 h-full flex flex-col items-center px-12 pt-48 pb-16">
             {/* Header - Larger */}
             <div className="text-center mb-10">
               <div className="flex items-center justify-center gap-6 mb-8">
@@ -312,13 +338,7 @@ export default function ResultCard({
                 className="text-gray-400 mb-4"
                 style={{ fontSize: '32px' }}
               >
-                calculated with ✨ itna ✨
-              </p>
-              <p
-                className="text-gray-300"
-                style={{ fontSize: '28px' }}
-              >
-                neino-namtal.vercel.app
+                ✨ neino-namtal.vercel.app✨
               </p>
             </div>
           </div>

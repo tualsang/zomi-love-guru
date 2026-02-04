@@ -9,7 +9,7 @@ import type { RateLimitEntry } from './types';
 const rateLimitStore = new Map<string, RateLimitEntry>();
 
 // Configuration
-const MAX_REQUESTS = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '10', 10);
+const MAX_REQUESTS = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '60', 10);
 const WINDOW_MS = parseInt(process.env.RATE_LIMIT_WINDOW_MS || '60000', 10);
 
 /**

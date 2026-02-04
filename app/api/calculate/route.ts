@@ -141,7 +141,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<Calculate
         headers: getRateLimitHeaders(rateLimit.remaining, rateLimit.resetIn),
       }
     );
-  } catch {
+  } catch (error) {
+    console.error('Calculate API Error:', error);
     return NextResponse.json(
       {
         success: false,
