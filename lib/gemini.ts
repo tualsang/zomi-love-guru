@@ -24,7 +24,7 @@ interface ZomiPhrase {
 const OPENING_PHRASES: ZomiPhrase[] = [
   {
     id: "open_high_1",
-    zomi: "Pasian thupha tawh",
+    zomi: "Pasian thupha tawh..",
     english: "With God's blessing",
     useWhen: "percentage >= 80",
   },
@@ -66,7 +66,7 @@ const OPENING_PHRASES: ZomiPhrase[] = [
   },
   {
     id: "open_low_2",
-    zomi: "Upna tawh lampi zong in",
+    zomi: "Upna tawh lampi thak zong in",
     english: "Seek the path through faith",
     useWhen: "percentage < 40",
   },
@@ -87,25 +87,25 @@ const CLOSING_BLESSINGS: ZomiPhrase[] = [
   },
   {
     id: "close_3",
-    zomi: "Na innkuan ding Pasian' thupha ding hi",
+    zomi: "Na innkuan ding Pasian' thupha ding hi.",
     english: "God will bless your future family",
     useWhen: "percentage >= 75, especially if marriage/family context",
   },
   {
     id: "close_4",
-    zomi: "Lungkimna tawh Pasian lampi zui in",
+    zomi: "Lungkimna tawh Pasian lampi zui in.",
     english: "Follow God's path with a peaceful heart",
     useWhen: "percentage 40-69",
   },
   {
     id: "close_5",
-    zomi: "Upna tawh Pasian deihna zong in",
+    zomi: "Upna tawh Pasian deihna zong in.",
     english: "Seek God's will through faith",
     useWhen: "percentage < 50",
   },
   {
     id: "close_6",
-    zomi: "Topa in nangma ading a hoihpen hong pia ding hi",
+    zomi: "Topa in nangma ading a hoihpen hong pia ding hi!",
     english: "The Lord will give you the best for you",
     useWhen: "any result, especially lower percentages",
   },
@@ -249,7 +249,6 @@ Your responses should be rooted in Christian faith and Biblical wisdom:
 - Mention Biblical love stories (Ruth & Boaz, Jacob & Rachel, Isaac & Rebekah, Adam & Eve)
 - Include themes like: God's plan, divine timing, covenant love, prayer, faith, blessings
 - Use phrases like: "God-centered relationship", "equally yoked", "love is patient, love is kind"
-- Remind that true love reflects Christ's love for the church
 - Keep it fun and playful while honoring Christian values
 
 ZOMI (TEDIM) LANGUAGE — CRITICAL RULES:
@@ -265,8 +264,7 @@ Your Zomi usage per response:
   5. NEVER conjugate, modify, or extend any Zomi phrase
 
 When inserting inline Zomi, use this pattern:
-  "...English text, ZOMI_WORD (English meaning), more English..."
-  Example: "This match is a true thupha (blessing) worth celebrating!"
+  "...English text, ZOMI_WORD, more English..."
 ${formatPhraseBank(OPENING_PHRASES, "OPENING PHRASES (pick one if you want to start with Zomi)")}
 ${formatPhraseBank(CLOSING_BLESSINGS, "CLOSING BLESSINGS (pick one to end with)")}
 ${formatInlineBank(INLINE_EXPRESSIONS)}
@@ -295,11 +293,11 @@ Return ONLY a valid JSON object in this format:
 Rules for the summary:
 - Must be 3-4 sentences total
 - Must start EXACTLY with the format: "You and [crush name] are a [percentage]% match!"
-- Tone must be witty, charming, faith-filled and funny
+- Tone must be witty, charming, faith-filled and funny.
 - Root the message in Christian faith — reference Scripture, God's plan, Biblical love stories, or Christian values
-- If "context" is present and non-empty, you MUST reference it
-- If birthday or age is present, add a subtle reference
-- If location data is present, add subtle local flavor
+- If "context" is present and non-empty, you MUST reference it.
+- If birthday or age is present, add a subtle reference.
+- If location data is present, add subtle reference.
 - You MUST include exactly ONE Zomi closing blessing (copied verbatim from the phrase bank)
 - You MUST include 1-2 inline Zomi words (copied verbatim from the phrase bank)
 - Do NOT invent any Zomi — only use phrases from the system prompt banks

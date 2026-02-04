@@ -30,7 +30,7 @@ export default function ResultCard({
     setIsDownloading(true);
     try {
       const cardElement = cardRef.current;
-      
+
       const dataUrl = await toPng(cardElement, {
         width: 1080,
         height: 1920,
@@ -86,19 +86,19 @@ export default function ResultCard({
   };
 
   const getCompatibilityMessage = () => {
-  if (isEasterEgg) return '✨ Ei leh ei maw? 😂 ✨';
-  if (percentage >= 95) return '💕 Ruth & Boaz Vibes 💕';
-  if (percentage >= 90) return '💒 Wedding Bells Soon 💒';
-  if (percentage >= 80) return '💖 Equally Yoked 💖';
-  if (percentage >= 70) return '💜 Blessed Connection 💜';
-  if (percentage >= 60) return '✝️ Pray About It ✝️';
-  if (percentage >= 50) return '🙏 Faith & Patience 🙏';
-  if (percentage >= 40) return '⏳ Trust His Timing ⏳';
-  if (percentage >= 30) return '📖 Read 1 Corinthians 13 📖';
-  if (percentage >= 20) return '🚪 When God Closes a Door... 🚪';
-  if (percentage >= 10) return '🐟 Plenty of Fish in Galilee 🐟';
-  return '😭 Jonah Had Better Luck 😭';
-};
+    if (isEasterEgg) return '✨ Ei leh ei maw? 😂 ✨';
+    if (percentage >= 95) return '💕 Ruth & Boaz Vibes 💕';
+    if (percentage >= 90) return '💒 Wedding Bells Soon 💒';
+    if (percentage >= 80) return '💖 Equally Yoked 💖';
+    if (percentage >= 70) return '💜 Blessed Connection 💜';
+    if (percentage >= 60) return '✝️ Pray About It ✝️';
+    if (percentage >= 50) return '🙏 Faith & Patience 🙏';
+    if (percentage >= 40) return '⏳ Trust His Timing ⏳';
+    if (percentage >= 30) return '📖 Read 1 Corinthians 13 📖';
+    if (percentage >= 20) return '🚪 When God Closes a Door... 🚪';
+    if (percentage >= 10) return '🐟 Plenty of Fish in Galilee 🐟';
+    return '😭 Jonah Had Better Luck 😭';
+  };
 
   const getNameFontSize = (name: string) => {
     if (name.length > 12) return '40px';
@@ -109,12 +109,12 @@ export default function ResultCard({
 
   const renderSummaryWithBlur = () => {
     if (!isNameHidden) return summary;
-    
+
     // Create a regex to find all instances of the crush's name (case insensitive)
     const regex = new RegExp(`(${crushName})`, 'gi');
     const parts = summary.split(regex);
-    
-    return parts.map((part, index) => 
+
+    return parts.map((part, index) =>
       part.toLowerCase() === crushName.toLowerCase() ? (
         <span key={index} className="blur-xl select-none">{part}</span>
       ) : (
@@ -191,7 +191,7 @@ export default function ResultCard({
                 </h1>
                 <Sparkles className="w-16 h-16 text-purple-400" />
               </div>
-              <p 
+              <p
                 className="text-gray-500 font-light tracking-wide"
                 style={{ fontSize: '42px' }}
               >
@@ -202,7 +202,7 @@ export default function ResultCard({
             {/* Names Section - Centered Heart */}
             <div className="flex items-center justify-center gap-10 mb-12 w-full max-w-[950px]">
               <div className="flex-1 text-right">
-                <p 
+                <p
                   className="font-semibold text-gray-800 mb-3 truncate"
                   style={{ fontSize: getNameFontSize(userName) }}
                 >
@@ -221,9 +221,8 @@ export default function ResultCard({
 
               <div className="flex-1 text-left">
                 <p
-                  className={`font-semibold text-gray-800 mb-3 truncate transition-all duration-300 ${
-                    isNameHidden ? 'blur-xl select-none' : ''
-                  }`}
+                  className={`font-semibold text-gray-800 mb-3 truncate transition-all duration-300 ${isNameHidden ? 'blur-xl select-none' : ''
+                    }`}
                   style={{ fontSize: getNameFontSize(crushName) }}
                 >
                   {crushName}
@@ -267,7 +266,7 @@ export default function ResultCard({
                   >
                     {percentage}%
                   </span>
-                  <span 
+                  <span
                     className="text-gray-500 mt-2"
                     style={{ fontSize: '36px' }}
                   >
@@ -281,7 +280,7 @@ export default function ResultCard({
             <div
               className={`inline-block px-14 py-6 rounded-full bg-gradient-to-r ${getCompatibilityColor()} mb-12`}
             >
-              <p 
+              <p
                 className="font-semibold text-white"
                 style={{ fontSize: '44px' }}
               >
@@ -299,7 +298,7 @@ export default function ResultCard({
                 boxShadow: '0 15px 50px rgba(236, 72, 153, 0.15)',
               }}
             >
-              <p 
+              <p
                 className="text-gray-700 leading-relaxed text-center"
                 style={{ fontSize: '35px', lineHeight: '1.6' }}
               >
@@ -309,17 +308,17 @@ export default function ResultCard({
 
             {/* Footer - Larger */}
             <div className="mt-auto text-center">
-              <p 
+              <p
                 className="text-gray-400 mb-4"
                 style={{ fontSize: '32px' }}
               >
                 calculated with ✨ itna ✨
               </p>
-              <p 
+              <p
                 className="text-gray-300"
                 style={{ fontSize: '28px' }}
               >
-                zomi-love-guru.vercel.app
+                neino-namtal.vercel.app
               </p>
             </div>
           </div>

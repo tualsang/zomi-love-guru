@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://zomi-love-guru.vercel.app',
-    siteName: 'Zomi Love Guru',
-    title: 'Zomi Love Guru | Compatibility Calculator',
+    url: 'https://neino-namtal.vercel.app',
+    siteName: 'Neino & Namtal',
+    title: 'Neino & Namtal | Compatibility Calculator',
     description: 'Discover your cosmic connection! Calculate your love compatibility with our AI-powered relationship analyzer.',
     images: [
       {
