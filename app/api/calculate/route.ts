@@ -1,6 +1,6 @@
 // ==============================================
 // API Route: /api/calculate
-// Zomi Love Guru - Compatibility Calculator
+// Heisa & Namtal - Compatibility Calculator
 // ==============================================
 
 import { NextRequest, NextResponse } from 'next/server';

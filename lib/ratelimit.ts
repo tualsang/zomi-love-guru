@@ -1,5 +1,5 @@
 // ==============================================
-// Rate Limiting for Zomi Love Guru
+// Heisa & Namtal - Rate Limiting
 // ==============================================
 
 import type { RateLimitEntry } from './types';

@@ -1,5 +1,5 @@
 // ==============================================
-// Google Gemini API Integration for Zomi Love Guru
+// Google Gemini API Integration for Heisa & Namtal
 // ==============================================
 
 import { GoogleGenerativeAI } from "@google/generative-ai";

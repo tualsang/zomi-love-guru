@@ -14,37 +14,8 @@ const pacifico = Pacifico({
 });
 
 export const metadata: Metadata = {
-  title: 'Neino & Namtal',
+  title: 'Heisa & Namtal',
   description: 'Discover your connection!',
-  keywords: ['love calculator', 'compatibility', 'relationship', 'zomi', 'AI', 'romance'],
-  authors: [{ name: 'Sang' }],
-  creator: 'Sang',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://neino-namtal.vercel.app',
-    siteName: 'Neino & Namtal',
-    title: 'Neino & Namtal',
-    description: 'Discover your cosmic connection! Calculate your love compatibility with our AI-powered relationship analyzer.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Neino & Namtal',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Neino & Namtal',
-    description: 'Discover your cosmic connection!',
-    images: ['/og-image.png'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
 
 export const viewport: Viewport = {

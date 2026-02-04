@@ -1,5 +1,5 @@
 // ==============================================
-// Sanitization Utilities for Zomi Love Guru
+// Input Sanitization for Heisa & Namtal
 // ==============================================
 
 import type { DateOfBirth, Location } from './types';
@@ -196,7 +196,7 @@ export function wrapUserContent(label: string, content: string): string {
  */
 export function sanitizeUserAgent(userAgent: string | undefined | null): string {
   if (!userAgent) return 'Unknown';
-  
+
   // Only keep alphanumeric, spaces, forward slashes, parentheses, dots, and dashes
   return userAgent
     .replace(/[^a-zA-Z0-9\s\/\(\)\.\-_;,]/g, '')
@@ -208,7 +208,7 @@ export function sanitizeUserAgent(userAgent: string | undefined | null): string 
  */
 export function formatTimestamp(timezone: string = 'UTC'): string {
   const now = new Date();
-  
+
   try {
     return now.toLocaleString('en-US', {
       timeZone: timezone,

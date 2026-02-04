@@ -1,5 +1,5 @@
 // ==============================================
-// Type Definitions for Zomi Love Guru
+// Type Definitions for Heisa & Namtal
 // ==============================================
 
 // Date of Birth - All fields optional for partial dates

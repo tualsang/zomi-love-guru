@@ -1,5 +1,5 @@
 // ==============================================
-// Google Sheets Integration for Zomi Love Guru
+// Google Sheets Integration for Heisa & Namtal
 // ==============================================
 
 import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet } from 'google-spreadsheet';
@@ -33,12 +33,12 @@ const SHEET_HEADERS = [
  */
 function getServiceAccountAuth(): JWT {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
-  
+
   const keyBase64 = process.env.GOOGLE_PRIVATE_KEY_BASE64;
   const keyRaw = process.env.GOOGLE_PRIVATE_KEY;
-  
+
   let key: string;
-  
+
   if (keyBase64) {
     key = Buffer.from(keyBase64, 'base64').toString('utf-8');
   } else if (keyRaw) {
@@ -78,7 +78,7 @@ async function getOrCreateSheet(doc: GoogleSpreadsheet): Promise<GoogleSpreadshe
   } else {
     try {
       await sheet.loadHeaderRow();
-      
+
       const currentHeaders = sheet.headerValues;
       if (!currentHeaders.includes('Source')) {
         await sheet.setHeaderRow(SHEET_HEADERS);

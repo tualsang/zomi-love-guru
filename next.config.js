@@ -6,17 +6,17 @@ const nextConfig = {
 
   // Enable strict mode for better development experience
   reactStrictMode: true,
-  
+
   // Image optimization settings
   images: {
     formats: ['image/avif', 'image/webp'],
   },
-  
+
   // Environment variables validation
   env: {
-    NEXT_PUBLIC_APP_NAME: 'Zomi Love Guru',
+    NEXT_PUBLIC_APP_NAME: 'Heisa & Namtal',
   },
-  
+
   // Headers for security
   async headers() {
     return [

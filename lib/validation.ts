@@ -1,5 +1,5 @@
 // ==============================================
-// Validation Utilities for Zomi Love Guru
+// Validation Logic for Heisa & Namtal
 // ==============================================
 
 import type {

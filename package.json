@@ -1,5 +1,9 @@
 {
   "name": "neino-namtal",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tualsang/neino-namtal"
+  },
   "version": "1.0.0",
   "private": true,
   "scripts": {
